@@ -1,5 +1,4 @@
-// WHEN I open the planner
-// THEN the current day is displayed at the top of the calendar
+// current day is displayed at the top of the calendar
 function getCurrentDate() {
   let dateAndTime = moment().format("MMMM Do YYYY, h:mm:ss a");
   $("#currentDay").text(dateAndTime);
@@ -7,8 +6,7 @@ function getCurrentDate() {
 }
 let now = getCurrentDate();
 
-// WHEN I scroll down
-// THEN I am presented with time blocks for standard business hours
+//time blocks for standard business hours
 let businessHours = [
   {
     time: "9",
@@ -74,55 +72,49 @@ let businessHours = [
     text: "",
   },
 ];
+// function for saving the user's input
 function saveData() {
   localStorage.setItem("businessHours", JSON.stringify(businessHours));
 }
+// function for grabbing and displaying any saved input
 function storedData() {
   debugger;
   let currentPlans = JSON.parse(localStorage.getItem("businessHours"));
-
-  console.log(currentPlans);
-
-  if (currentPlans !== null) {
+if (currentPlans !== null) {
     businessHours = currentPlans;
     displayPlanner();
   } else {
     displayPlanner();
   }
 }
-
+// planner is displayed (with previous user input if there is any)
 function displayPlanner() {
   businessHours.forEach(function (currentHour) {
     let hourRow = $("<div>");
     hourRow.addClass("row");
     $("#plannerDisplay").append(hourRow);
-
     let hourColumn = $("<div>");
     hourColumn.addClass("col-md-2");
     hourColumn.text(`${currentHour.hour} ${currentHour.amPM}`);
     hourRow.append(hourColumn);
-
     let textColumn = $("<div>");
     textColumn.addClass("col-md-9");
     let textInput = $("<textarea>");
     textInput.addClass("textarea");
     textInput.attr("id", currentHour.id);
+    textInput.attr("cols", "80");
     textInput.text(currentHour.text);
     console.log(textInput);
     textColumn.append(textInput);
     hourRow.append(textColumn);
-
     let saveBtn = $("<button>");
     saveBtn.addClass("col-md-1");
     saveBtn.addClass("saveBtn");
+    saveBtn.text("Save");
     hourRow.append(saveBtn);
+
+    // the color of the hour block changes depending on the time of day
     let hour = moment().hour();
-
-    console.log(hour);
-    // WHEN I view the time blocks for that day
-    // THEN each time block is color-coded to indicate whether it is in the past, present, or future
-    console.log(currentHour.time);
-
     if (currentHour.time < hour) {
       hourRow.addClass("past");
     }
@@ -131,28 +123,17 @@ function displayPlanner() {
     } else if (currentHour.time > hour) {
       hourRow.addClass("future");
     }
-
-    // WHEN I click into a time block
-    // THEN I can enter an event
   });
 }
+// function is called to retrieve the stored data and display it
 storedData();
 
-// WHEN I click the save button for that time block
-// THEN the text for that event is saved in local storage
-
+// when the saved button is clicked the user input is saved in locat storage
 $(document).on("click", ".saveBtn", function () {
   let row = $(this).parent();
-
   let textArea = row.children().find("textarea");
   let userInput = textArea.val();
   let currentId = textArea.attr("id");
-  console.log(currentId);
-
   businessHours[currentId].text = userInput;
-
   saveData();
 });
-
-// WHEN I refresh the page
-// THEN the saved events persist
