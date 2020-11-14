@@ -114,7 +114,6 @@ function displayPlanner() {
 
     // the color of the hour block changes depending on the time of day
     let currentTime = moment().format("HH");
-
     if (currentHour.time < currentTime) {
       textColumn.addClass("past");
     }
