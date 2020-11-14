@@ -21,7 +21,7 @@
 
 I was tasked with creating a JavaScript Quiz. It had to have at least 5 questions. When the start button is clicked the user is given a certain amount of time to answer all 5 questions. If a user answers a question incorrectly 10 seconds is deducted from the timer. If the timer runs out before all the questions are answered the user is prompted to start over. If the user makes it to the end of the quiz, they are prompted to input a name. The name is then saved with their time it took to complete the quiz in local storage. When the user clicks the "Highscore" link in the navigation bar, all the scores are presented. The user then has a button to click in order to return to the start of the quiz if they wish to retake it.
 
-![](./images/quizstart.PNG) ![](./images/quizques.PNG)
+![](./images/planner2.PNG) ![](./images/planner1.PNG)
 
 ### Built With
 

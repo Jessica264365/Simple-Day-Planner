@@ -9,7 +9,7 @@ let now = getCurrentDate();
 //time blocks for standard business hours
 let businessHours = [
   {
-    time: "9",
+    time: "09",
     hour: "9",
     amPM: "am",
     id: "0",
@@ -78,9 +78,8 @@ function saveData() {
 }
 // function for grabbing and displaying any saved input
 function storedData() {
-  debugger;
   let currentPlans = JSON.parse(localStorage.getItem("businessHours"));
-if (currentPlans !== null) {
+  if (currentPlans !== null) {
     businessHours = currentPlans;
     displayPlanner();
   } else {
@@ -94,34 +93,35 @@ function displayPlanner() {
     hourRow.addClass("row");
     $("#plannerDisplay").append(hourRow);
     let hourColumn = $("<div>");
-    hourColumn.addClass("col-md-2");
+    hourColumn.addClass("col-md-2 hour");
     hourColumn.text(`${currentHour.hour} ${currentHour.amPM}`);
     hourRow.append(hourColumn);
     let textColumn = $("<div>");
-    textColumn.addClass("col-md-9");
+    textColumn.addClass("col-md-9 description p-0");
     let textInput = $("<textarea>");
     textInput.addClass("textarea");
     textInput.attr("id", currentHour.id);
     textInput.attr("cols", "80");
     textInput.text(currentHour.text);
-    console.log(textInput);
     textColumn.append(textInput);
     hourRow.append(textColumn);
     let saveBtn = $("<button>");
-    saveBtn.addClass("col-md-1");
-    saveBtn.addClass("saveBtn");
-    saveBtn.text("Save");
+    let saveIcon = $("<i>");
+    saveIcon.addClass("far fa-save");
+    saveBtn.append(saveIcon);
+    saveBtn.addClass("col-md-1 saveBtn");
     hourRow.append(saveBtn);
 
     // the color of the hour block changes depending on the time of day
-    let hour = moment().hour();
-    if (currentHour.time < hour) {
-      hourRow.addClass("past");
+    let currentTime = moment().format("HH");
+
+    if (currentHour.time < currentTime) {
+      textColumn.addClass("past");
     }
-    if (currentHour.time === hour) {
-      hourRow.addClass("present");
-    } else if (currentHour.time > hour) {
-      hourRow.addClass("future");
+    if (currentHour.time === currentTime) {
+      textColumn.addClass("present");
+    } else if (currentHour.time > currentTime) {
+      textColumn.addClass("future");
     }
   });
 }
